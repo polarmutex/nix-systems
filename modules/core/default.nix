@@ -7,13 +7,10 @@ in
 rec {
 
   imports = [
-    ./scripts.nix
     ./nixos.nix
     ./software.nix
     ./security.nix
     ./regional.nix
-    ./network.nix
-    ./user.nix
   ];
   options.sys = {
     kernelPackage = mkOption {

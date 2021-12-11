@@ -42,11 +42,12 @@
 
           cfg = {
             sys.kernelPackage = pkgs.linuxPackages_latest;
+            sys.bootloader = "grub";
+            sys.diskLayout = "vm";
             sys.locale = "en_EN.UTF-8";
             sys.timeZone = "America/NewYork";
-            sys.users.primaryUser.extraGroups = [ "wheel" "networkmanager" "docker" ];
-            sys.virtualisation.kvm.enable = true;
-            sys.virtualisation.docker.enable = true;
+            sys.virtualisation.kvm.enable = false;
+            sys.virtualisation.docker.enable = false;
             sys.cpu.type = "intel";
             sys.cpu.cores = 2;
             sys.cpu.threadsPerCore = 1;

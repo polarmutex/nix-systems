@@ -37,8 +37,8 @@ in
     networking.firewall.allowedTCPPorts = [ 22 ];
     networking.firewall.allowPing = true;
 
-    users.users."${cfg.username}".openssh.authorizedKeys.keys = [ cfg.sshPublicKey ];
-    users.users.root.openssh.authorizedKeys.keys = [ cfg.sshPublicKey ];
+    #users.users."${cfg.username}".openssh.authorizedKeys.keys = [ cfg.sshPublicKey ];
+    #users.users.root.openssh.authorizedKeys.keys = [ cfg.sshPublicKey ];
 
     environment.systemPackages = with pkgs; [
       (mkIf cfg.yubikey gnupg)
