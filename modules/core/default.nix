@@ -11,6 +11,7 @@ rec {
     ./software.nix
     ./security.nix
     ./regional.nix
+    ./users.nix
   ];
   options.sys = {
     kernelPackage = mkOption {

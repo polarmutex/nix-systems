@@ -39,8 +39,22 @@ in
     networking.firewall.allowedTCPPorts = [ 22 ];
     networking.firewall.allowPing = true;
 
-    #users.users."${cfg.username}".openssh.authorizedKeys.keys = [ cfg.sshPublicKey ];
-    #users.users.root.openssh.authorizedKeys.keys = [ cfg.sshPublicKey ];
+    users.users."${cfg.username}".openssh.authorizedKeys.keyFiles = [
+      (
+        builtins.fetchurl {
+          url = "https://github.com/polarmutex.keys";
+          sha256 = "sha256:01vg72kgaw8scgmfif1sm9wnzq3iis834gn8axhpwl2czxcfysl9";
+        }
+      )
+    ];
+    users.users.root.openssh.authorizedKeys.keyFiles = [
+      (
+        builtins.fetchurl {
+          url = "https://github.com/polarmutex.keys";
+          sha256 = "sha256:01vg72kgaw8scgmfif1sm9wnzq3iis834gn8axhpwl2czxcfysl9";
+        }
+      )
+    ];
 
     environment.systemPackages = with pkgs; [
       (mkIf cfg.yubikey gnupg)

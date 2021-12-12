@@ -1,3 +1,7 @@
+# upload new build to polarbear vm 
+polarbear:
+	nix-build ./krops.nix -A polarbear && ./result
+
 # Connectivity info for Linux VM
 NIXADDR ?= unset
 NIXPORT ?= 22

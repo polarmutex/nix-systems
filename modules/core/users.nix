@@ -10,7 +10,7 @@ in
     primaryUser = {
       name = mkOption {
         type = types.str;
-        default = "wil";
+        default = "polar";
         description = "The username of the primary user on the system";
       };
 
@@ -34,6 +34,7 @@ in
       name = cfg.primaryUser.name;
       isNormalUser = true;
       isSystemUser = false;
+      group = cfg.primaryUser.name;
       extraGroups = cfg.primaryUser.extraGroups;
       uid = 1000;
       initialPassword = "P@ssw0rd01";
