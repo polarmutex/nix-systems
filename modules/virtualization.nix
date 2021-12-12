@@ -31,5 +31,7 @@ in
       (mkIf (cpuType == "intel") "intel-amd")
     ];
 
+    virtualisation.virtualbox.guest.enable = true;
+
   };
 }

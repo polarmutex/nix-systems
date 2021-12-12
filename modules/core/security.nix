@@ -34,6 +34,8 @@ in
 
     # Enable SSHD
     services.openssh.enable = true;
+    services.openssh.permitRootLogin = "yes";
+    services.openssh.passwordAuthentication = true;
     networking.firewall.allowedTCPPorts = [ 22 ];
     networking.firewall.allowPing = true;
 

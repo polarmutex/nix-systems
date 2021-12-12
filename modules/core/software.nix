@@ -41,8 +41,9 @@ in
     lf
     nix-index
     nmap
-
+    neovim
     lm_sensors
+    lazygit
 
     python3 # I want to remove this eventually and get most dev dependancies out of my base environment
   ];
