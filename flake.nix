@@ -52,7 +52,7 @@
             sys.cpu.cores = 2;
             sys.cpu.threadsPerCore = 1;
             sys.biosType = "grub";
-            sys.graphics.displayManager = "lightdm";
+            sys.graphics.displayManager = "none";
             sys.graphics.desktopProtocols = [ "xorg" ];
             sys.audio.server = "pulse";
 
