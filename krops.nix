@@ -53,7 +53,7 @@ rec {
 
   # Individual machines
   polarvortex = createHost "polarvortex" "root@100.97.125.108";
-  polarbear = createHost "polarbear" "root@10.11.11.144";
+  polarbear = createHost "polarbear" "root@10.11.11.146";
 
   # Groups
   all = pkgs.writeScript "deploy-all"

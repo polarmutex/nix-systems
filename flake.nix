@@ -2,63 +2,49 @@
   description = "PolarMutex Nixos configurations";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-21.11";
-    flake-utils.url = "github:numtide/flake-utils";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-21.11";
+    utils.url = "github:gytis-ivaskevicius/flake-utils-plus";
+    neovim = {
+      url = github:neovim/neovim?dir=contrib;
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    home-manager = {
+      url = github:nix-community/home-manager/release-21.05;
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
-  outputs = inputs @ { self, nixpkgs, ... }:
-    let
-      inherit (nixpkgs) lib;
-      inherit (lib) attrValues;
+  outputs = inputs @ { self, nixpkgs, utils, neovim, home-manager, ... }:
+    utils.lib.mkFlake {
+      inherit self inputs;
 
-      util = import ./lib { inherit system pkgs lib; overlays = (pkgs.overlays); };
-
-      inherit (util) host;
-
-      pkgs = import nixpkgs {
-        inherit system;
-        config = { allowBroken = true; allowUnfree = true; };
-        overlays = [
-          (final: prev: {
-            my = import ./pkgs { inherit pkgs; };
-          })
+      channels.nixpkgs = {
+        input = nixpkgs;
+        overlaysBuilder = _: [
+          neovim.overlay
         ];
       };
+      channelsConfig.allowUnfree = true;
 
-      system = "x86_64-linux";
-    in
-    {
-      packages."${system}" = pkgs;
+      hostDefaults = {
+        modules = [
+          ./modules
+          home-manager.nixosModules.home-manager
+        ];
+        extraArgs = { nixosConfigurations = self.nixosConfigurations; };
+      };
 
-      devShell."${system}" = import ./shell.nix { inherit pkgs; };
+      hosts = {
+        polarbear.modules = [ ./hosts/polarbear ];
+      };
 
-      nixosConfigurations = {
-        polarbear = host.mkHost {
-          name = "polarbear";
-          NICs = [ "enp0s3" ];
-          initrdMods = [ "ata_piix" "ohci_pci" "ehci_pci" "sd_mod" "sr_mod" ];
-          kernelMods = [ ];
-          kernelParams = [ ];
-
-          cfg = {
-            sys.kernelPackage = pkgs.linuxPackages_latest;
-            sys.bootloader = "grub";
-            sys.diskLayout = "vm";
-            sys.locale = "en_EN.UTF-8";
-            sys.timeZone = "America/NewYork";
-            sys.virtualisation.kvm.enable = false;
-            sys.virtualisation.docker.enable = false;
-            sys.cpu.type = "intel";
-            sys.cpu.cores = 2;
-            sys.cpu.threadsPerCore = 1;
-            sys.biosType = "grub";
-            sys.graphics.displayManager = "none";
-            sys.graphics.desktopProtocols = [ "xorg" ];
-            sys.audio.server = "pulse";
-
-            sys.security.yubikey = true;
-            sys.security.username = "polar";
-          };
+      outputsBuilder = channels: with channels.nixpkgs; {
+        devShell = mkShell {
+          name = "nix-systems";
+          buildInputs = [
+            git-crypt
+          ];
         };
       };
     };

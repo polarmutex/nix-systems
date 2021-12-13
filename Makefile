@@ -50,10 +50,14 @@ vm/bootstrap0:
 			services.openssh.permitRootLogin = \"yes\";\n \
 			users.users.root.initialPassword = \"root\";\n \
 			boot.loader.grub.device = \"/dev/sda\";\n \
+  			environment.systemPackages = with pkgs; [\n \
+  			git\n \
+  			neovim\n \
+  			];\n \
 		' /mnt/etc/nixos/configuration.nix; \
 		nixos-install --no-root-passwd; \
+		reboot; \
 	"
-	#reboot; \
 
 # after bootstrap0, run this to finalize. After this, do everything else
 # in the VM unless secrets change.
