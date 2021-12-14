@@ -2,5 +2,8 @@
 {
   imports = [
     ./base
+    ./development
+    ./graphical
+    ./services
   ];
 }

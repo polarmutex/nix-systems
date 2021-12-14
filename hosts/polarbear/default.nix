@@ -6,7 +6,7 @@
     ];
 
   # Set your time zone.
-  time.timeZone = "Americas/NewYork";
+  time.timeZone = "America/New_York";
 
   networking.useDHCP = false;
   networking.interfaces.enp0s3.useDHCP = true;
@@ -16,19 +16,18 @@
 
   polar = {
     stateVersion = "21.05";
+    base = {
+      bluetooth.enable = true;
+    };
+    development = {
+      enable = false;
+    };
+    graphical.enable = true;
   };
 
   users.users.root = {
     initialPassword = "root";
   };
-
-  nix.package = pkgs.nixFlakes;
-  nix.extraOptions = "experimental-features = nix-command flakes";
-
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
-  services.openssh.passwordAuthentication = true;
-  services.openssh.permitRootLogin = "yes";
 
 }
 

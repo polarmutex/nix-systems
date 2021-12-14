@@ -13,9 +13,23 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    polar-dwm.url = "github:polarmutex/dwm";
+    polar-dmenu.url = "github:polarmutex/dmenu";
+    polar-st.url = "github:polarmutex/st";
+
   };
 
-  outputs = inputs @ { self, nixpkgs, utils, neovim, home-manager, ... }:
+  outputs =
+    inputs @ { self
+    , nixpkgs
+    , utils
+    , neovim
+    , home-manager
+    , polar-dwm
+    , polar-st
+    , polar-dmenu
+    , ...
+    }:
     utils.lib.mkFlake {
       inherit self inputs;
 
@@ -23,6 +37,9 @@
         input = nixpkgs;
         overlaysBuilder = _: [
           neovim.overlay
+          polar-dwm.overlay
+          polar-st.overlay
+          polar-dmenu.overlay
         ];
       };
       channelsConfig.allowUnfree = true;

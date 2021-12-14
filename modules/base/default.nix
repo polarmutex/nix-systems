@@ -2,6 +2,9 @@
 
 {
   imports = [
+    ./bluetooth.nix
+    ./nixos.nix
+    ./sshd.nix
   ];
 
   options.polar = {
@@ -20,6 +23,7 @@
       unzip
       zip
       neovim
+      lazygit
     ];
 
     security = {
